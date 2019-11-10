@@ -3,7 +3,16 @@
   <v-container fluid >
     <h4>Select Item(s) from Schema-Array</h4>
 
-    <v-form-base id="form-base-selection" :value= "myValue" :schema= "mySchema" @change:form-base-selection= "update" />
+    <v-form-base id="form-base-selection" :value= "myValue" :schema= "mySchema1" @change:form-base-selection= "update">
+      <h4 slot="slot-top-key-name">Top Slot on Key Name</h4>
+      <h4 slot="slot-top-type-radio">Top Slot on Types Radio</h4>
+
+      <h4 slot="slot-item-key-password">Slot replaces Key Password</h4>
+
+      <h4 slot="slot-bottom-key-name">Bottom Slot Key Name</h4>
+      <h4 slot="slot-bottom-type-radio">Bottom Slot on Types Radio</h4>
+
+    </v-form-base>
 
     <infoline :value= "myValue" :schema= "mySchema"></infoline>
 

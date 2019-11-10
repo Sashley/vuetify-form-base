@@ -46,6 +46,30 @@
             </div>
           </template>
 
+          <!-- dateLookup -->
+          <v-menu
+            v-else-if= "obj.schema.type === 'dateLookup'"
+            v-model = "dateMenu"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="10px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-bind = "obj.schema"
+                :value= "setDateValue(obj)"
+                label="Date lookup without buttons"
+                prepend-icon="event"
+                readonly
+                v-on="on"
+              ></v-text-field>
+            </template>
+              <v-date-picker v-model= "dateLookupDefault" @input="dateMenu= false" @change= "onInput($event, obj)"></v-date-picker>
+          </v-menu>
+
+<!-- class= "datePicker" style= "{min-width: 0px}" -->
           <!-- treeview -->
           <v-treeview
             v-else-if= "obj.schema.type === 'treeview'"
@@ -90,7 +114,7 @@
             :value= "setValue(obj)"
             v-bind = "obj.schema"
             @focus = "onFocus($event, obj)"
-            @blur = "onBlur($event, obj)"            
+            @blur = "onBlur($event, obj)"
             @change= "onInput($event, obj)"
           ></v-file-input>
 
@@ -199,6 +223,11 @@ const typeToComponent = {
   color: 'v-color-picker',
   date: 'v-date-picker',
   time: 'v-time-picker',
+  dateLookup: 'v-text-field',
+  datePicker: 'v-date-picker',
+  datePick: 'v-date-picker',
+  dPicker: 'v-text-field',
+
   textarea: 'v-textarea'
 }
 // Declaration
@@ -256,7 +285,9 @@ export default {
       append,
       appendOuter,
       prepend,
-      prependInner
+      prependInner,
+      dateMenu: false,
+      dateLookupDefault: ''
     }
   },
 
@@ -384,6 +415,11 @@ export default {
       // Control gets a Value
       return this.toCtrl({ value: obj.value, obj, data: this.storeStateData, schema: this.storeStateSchema })
     },
+    setDateValue (obj) {
+      // Control gets a Value
+      this.dateLookupDefault = obj.value
+      return this.toCtrl({ value: obj.value, obj, data: this.storeStateData, schema: this.storeStateSchema })
+    },
     //
     // Get Value from Input & other Events
     onInput (value, obj) {
@@ -437,7 +473,7 @@ export default {
       })
     },
     onBlur (event, obj) {
-     this.emitValue('blur', {
+      this.emitValue('blur', {
         on: 'blur',
         id: this.ref,
         index: this.ref.replace(/\D/g, ''),
@@ -536,3 +572,6 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+</style>

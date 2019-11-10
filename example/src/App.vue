@@ -52,7 +52,7 @@ export default {
   data () {
     return {
       items,
-      view: items[0]
+      view: items[8]
     }
   }
 }
